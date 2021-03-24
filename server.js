@@ -6,13 +6,15 @@ const knex = require('knex')({
     client: 'pg',
     connection: {
       host : '127.0.0.1',
-      user : 'jfraza',
-      password : '',
+      user : 'postgres',
+      password : 'test',
       database : 'big-brain'
     }
   });
 
-console.log(knex.select('*').from('users'));
+knex.select('*').from('users').then(data => {
+    console.log(data);
+});
 
 const app = express();
 
@@ -69,16 +71,11 @@ app.post('/signin', (req, res) => {
 
 app.post('/register', (req, res) => {
     const { email, name, password } = req.body;
-    bcrypt.hash(password, null, null, function(err, hash) {
-        console.log(hash);
-    });
-    database.users.push({
-        id: '125',
-        name: name,
+    knex('users').insert({
         email: email,
-        entries: 0,
+        name: name,
         joined: new Date()
-    })
+    }).then(console.log)
     res.json(database.users[database.users.length - 1]);
 })
 
