@@ -5,10 +5,8 @@ const cors = require('cors');
 const knex = require('knex')({
     client: 'pg',
     connection: {
-      host : 'postgresql-transparent-75503',
-      user : 'postgres',
-      password : 'test',
-      database : 'big-brain'
+      host : process.env.DATABASE_URL,
+      ssl: true
     }
   });
 
